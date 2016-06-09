@@ -1,0 +1,56 @@
+//  _____           _                    _____ _         _
+// /  __ \         | |                  /  ___| |       | |
+// | /  \/_   _ ___| |_ ___  _ __ ___   \ `--.| |_ _   _| | ___  ___
+// | |   | | | / __| __/ _ \| '_ ` _ \   `--. \ __| | | | |/ _ \/ __|
+// | \__/\ |_| \__ \ || (_) | | | | | | /\__/ / |_| |_| | |  __/\__ \
+//  \____/\__,_|___/\__\___/|_| |_| |_| \____/ \__|\__, |_|\___||___/
+//                                                  __/ |
+//                                                 |___/
+
+@import 'variables';
+@import 'mixins';
+
+#map {
+  width: 700px;
+  height: 700px;
+}
+
+
+.mapboxgl-popup-content {
+  width: 280px;
+	font-family: $sans;
+	padding: 10px 25px 10px 10px !important;
+    position: relative;
+	h4 {
+		font-weight: bold;
+	}
+	button {
+		font-size: 20px;
+	}
+}
+.badge {
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+    display: block;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+#mapContainer {
+    position: relative;
+    width: 700px;
+    height: 700px;
+}
+
+.clearMap {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 100px;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+}
