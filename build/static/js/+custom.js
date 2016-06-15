@@ -10,6 +10,8 @@ $(document).ready(function() {
 
 	$('.copyright').text(year);
 
+	var rawData;
+	var forceData;
 
 	// initial map setup
 
@@ -28,7 +30,8 @@ $(document).ready(function() {
 		map.addControl(new mapboxgl.Navigation());
 
 		$.getJSON("js/map_data.json", function(data) {
-			processData(data);
+			rawData = data;
+			processData(rawData);
 		});
 
 	});
@@ -40,12 +43,12 @@ $(document).ready(function() {
 	function processData(data) {
 		forceData = GeoJSON.parse(data, {Point: ["latitude", "longitude"], exclude: []});
 		drawMap(forceData);
+		console.log(forceData);
 	}
 
 
 
 	function drawMap(data) {
-
 		// adding the data as a source to the map
 		map.addSource("dpdForceData", {
 			type: "geojson",
@@ -102,13 +105,13 @@ $(document).ready(function() {
 				}
 			});
 
-			// building out and placying the popup that contains the badge numbers
+			// building out and placing the popup that contains the badge numbers
 			var popup = new mapboxgl.Popup()
 				.setLngLat(feature.geometry.coordinates)
 				.setHTML(content)
 				.addTo(map);
 
-			// clicking on a bad number filters the map to display only incidents
+			// clicking on a badge number filters the map to display only incidents
 			// involving that particluar badge number (i.e., officer)
 			$(".badge").click(function() {
 				var badge = $(this).attr("data-badge");
@@ -132,16 +135,48 @@ $(document).ready(function() {
 	}
 
 	// function that filters the map based on badge number clicked
-	// checks for a key that is the badge number and if it is marked true
+	// checks the passed badge number against the raw data
+	// then builds a new array of the matching incidents
 	function filterBadge(badge) {
-		map.setFilter("forceIncidents", ["==", badge, true]);
+
+		// clear the map of the current layers and sources
+		clearMap();
+
+		// placeholder variable for the resulting officer data`
+		var officerData = [];
+
+		// iterate over the raw data and check for matching badge numbers
+		// then push those incidents to the officerData array
+		$.each(rawData, function(k,v) {
+			var totalOfficers = v.force_use.length;
+			for (i = 0; i < totalOfficers; i++) {
+				if (v.force_use[i].current_badge_no === badge) {
+					officerData.push(v);
+				}
+			}
+		});
+
+		// parse the resulting officerData array as GeoJSON
+		officerData = GeoJSON.parse(officerData, {Point: ["latitude", "longitude"], exclude: []});
+
+		// draw the map again with the new officer data
+		drawMap(officerData);
+	}
+
+	// clears the map of any layers, sources, click and mousemove functions
+	function clearMap() {
+		map.off("click");
+		map.off("mousemove");
+		map.removeLayer("forceIncidents");
+		map.removeSource("dpdForceData");
 	}
 
 	// button that clears the map of any filter set, reseting the map to it's
 	// initial state
 	$(".clearMap").click(function() {
 		console.log("test");
-		map.setFilter("forceIncidents", [">=", "id", 0]);
+		clearMap();
+		drawMap(forceData);
 	});
 
 

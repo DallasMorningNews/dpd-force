@@ -16,7 +16,6 @@ for incident in force_geo_data:
     if incident_name not in incidents:
         incidents[incident_name] = {}
         incidents[incident_name]["id"] = count
-        incidents[incident_name][incident["curren_badge_no"]] = bool("true")
         incidents[incident_name]["address"] = incident["street_address"]
         incidents[incident_name]["date"] = incident["date"]
         incidents[incident_name]["latitude"] = incident["latitude"]
@@ -26,7 +25,6 @@ for incident in force_geo_data:
 
         count += 1
     else:
-        incidents[incident_name][incident["curren_badge_no"]] = bool("true")
         incidents[incident_name]["force_use"].append({"current_badge_no": incident["curren_badge_no"], "officer_sex": incident["officer_sex"], "officer_race": incident["officer_race"], "hire_date": incident["hire_date"], "officer_injured": incident["officer_injured"], "officer_hospital": incident["officer_hospital"], "service_type": incident["service_type"], "uof_num": incident["uof_num"], "force_type": incident["force_type"], "uof_reason": incident["uof_reason"], "force_effective": incident["force_effective"], "citizen_number": incident["citizen_number"], "citizen_race": incident["citizen_race"], "citizen_sex": incident["citizen_sex"], "citizen_injured": incident["citizen_injured"], "citizen_condition": incident["citizen_condition"], "citizen_arrested": incident["citizen_arrested"], "citizen_assesment": incident["citizen_assesment"], "citizen_charge": incident["citizen_charge"]})
 
 
