@@ -2,14 +2,26 @@ import json
 import pprint
 import csv
 
-force_data = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/force_orig.json").read()
 
+# the path we want to pull from. this should change based on the year of the data we want
+filepath = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/force_orig-2014.json"
+
+# year variable that is used to append to our outputted file
+year = "2014"
+
+# open the file
+force_data = open(filepath).read()
+
+# load the file as json
 data = json.loads(force_data)
 
+# set force_instances equal to the key we want to use in the force_data
 force_instances = data["data"]
 
+# setup and empty list to hold all our force objects
 use_of_force = []
 
+# populate our force objects
 for instance in force_instances:
 
     current_instance = {
@@ -44,35 +56,31 @@ for instance in force_instances:
         "zip": ""
     }
 
+#append each of our force instance objects to the use_of_force list
     use_of_force.append(current_instance)
 
+# open up the file we'll dump our data into
+dpd_force_data = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_data-" + year + ".json", "w")
 
-dpd_force_data = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_data.json", "w")
-
+# dump our data
 json.dump(use_of_force, dpd_force_data)
 
+# close the file
 dpd_force_data.close()
 
+# create a new list that will hold the objects we have that don't have lat/long
 no_geo = []
 
-
+# iterate over our data, find the ones that don't have lat/long, and append it to the no_geo list
 for item in use_of_force:
     if item["latitude"] == None:
         no_geo.append(item)
-        print item
 
-
-print no_geo
-
-
+# set keys equal to the keys we'll need in our csv for the batch geocoding
 keys = no_geo[0].keys()
-with open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/no_geo.csv", "wb") as f:
+
+# open a file that will hold our non-geo csv, write the keys, then write the actual data
+with open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/no_geo-" + year + ".csv", "wb") as f:
     dict_writer = csv.DictWriter(f, keys)
     dict_writer.writeheader()
     dict_writer.writerows(no_geo)
-
-# dpd_no_geo = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_no_geo.json", "w")
-#
-# json.dump(no_geo, dpd_no_geo)
-#
-# dpd_no_geo.close()

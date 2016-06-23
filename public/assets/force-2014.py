@@ -49,8 +49,6 @@ for instance in force_instances:
         "citizen_assesment": instance[31],
         "citizen_charge": instance[32],
         "street_address": instance[33],
-        "latitude": instance[41][1],
-        "longitude": instance[41][2],
         "city": "Dallas",
         "state": "TX",
         "zip": ""
@@ -68,19 +66,12 @@ json.dump(use_of_force, dpd_force_data)
 # close the file
 dpd_force_data.close()
 
-# create a new list that will hold the objects we have that don't have lat/long
-no_geo = []
-
-# iterate over our data, find the ones that don't have lat/long, and append it to the no_geo list
-for item in use_of_force:
-    if item["latitude"] == None:
-        no_geo.append(item)
 
 # set keys equal to the keys we'll need in our csv for the batch geocoding
-keys = no_geo[0].keys()
+keys = use_of_force[0].keys()
 
 # open a file that will hold our non-geo csv, write the keys, then write the actual data
 with open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/no_geo-" + year + ".csv", "wb") as f:
     dict_writer = csv.DictWriter(f, keys)
     dict_writer.writeheader()
-    dict_writer.writerows(no_geo)
+    dict_writer.writerows(use_of_force)

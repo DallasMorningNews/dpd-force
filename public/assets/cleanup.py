@@ -1,7 +1,11 @@
 import json
 import pprint
 
-dpd_force_geo_json = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_geo.json").read()
+geo_json_file_path = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_geo.json"
+year = "2015"
+
+
+dpd_force_geo_json = open(geo_json_file_path).read()
 
 force_geo_data = json.loads(dpd_force_geo_json)
 
@@ -30,7 +34,7 @@ for incident in force_geo_data:
 
 incidents = list(incidents.values())
 
-map_data = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/map_data.json", "w")
+map_data = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/map_data-" + year + ".json", "w")
 
 json.dump(incidents, map_data)
 

@@ -29,7 +29,7 @@ $(document).ready(function() {
 		map.scrollZoom.disable();
 		map.addControl(new mapboxgl.Navigation());
 
-		$.getJSON("js/map_data.json", function(data) {
+		$.getJSON("js/map_data_2015.json", function(data) {
 			rawData = data;
 			processData(rawData);
 		});

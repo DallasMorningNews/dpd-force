@@ -1,12 +1,15 @@
 import json
 import csv
 
+json_file_path = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_data-2015.json"
+csv_file_path = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/geo-added-2015.csv"
+year = "2015"
 
-force_data = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_data.json").read()
+force_data = open(json_file_path).read()
 
 non_geo = json.loads(force_data)
 
-with open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/no_geo2.csv") as csvfile:
+with open(csv_file_path) as csvfile:
     reader = csv.DictReader(csvfile)
 
     for line in reader:
@@ -17,23 +20,8 @@ with open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/stati
                 item["longitude"] = line["longitude"]
                 item["latitude"] = line["latitude"]
 
-dpd_force_geo = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_geo.json", "w")
+dpd_force_geo = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_geo-" + year + ".json", "w")
 
 json.dump(non_geo, dpd_force_geo)
 
 dpd_force_geo.close()
-
-
-# csvfile = open("/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/no_geo2.csv", 'rb')
-# Dictreader = csv.dictreader(csvfile)
-
-# for item in non_geo:
-#     item_number = item["id"]
-#
-#
-#     for line in reader:
-#         if item_number == line[3]:
-#             item["longitude"] = line[2]
-#             item["latitude"] = line[17]
-#
-# print non_geo
