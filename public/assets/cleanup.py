@@ -1,8 +1,8 @@
 import json
 import pprint
 
-geo_json_file_path = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_geo.json"
-year = "2015"
+geo_json_file_path = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_geo-2014.json"
+year = "2014"
 
 
 dpd_force_geo_json = open(geo_json_file_path).read()

@@ -1,9 +1,9 @@
 import json
 import csv
 
-json_file_path = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_data-2015.json"
-csv_file_path = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/geo-added-2015.csv"
-year = "2015"
+json_file_path = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/dpd_force_data-2014.json"
+csv_file_path = "/Users/johnhancock/Desktop/interactives/working/dpd-force/build/static/assets/geo-added-2014.csv"
+year = "2014"
 
 force_data = open(json_file_path).read()
 
